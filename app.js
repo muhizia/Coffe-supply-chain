@@ -3,24 +3,50 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session')
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-json/swagger.json');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var shipmentRouter = require('./routes/shipments');
+var producerRouter = require('./routes/producers');
+var supplierRouter = require('./routes/suppliers');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+
+
+app.use(
+  '/api-docs',
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerDocument)
+);
+
+
+
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({  
+  name: `Coffee-supply-chain`,
+  secret: 'UglbYKr46DovU68VngH4WobIclU+2usGGyhoM136oSN5d9nFMVQhpNDzqF3T',  
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: false, // This will only work if you have https enabled!
+    maxAge: 60000 // 1 min
+  } 
+}));
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/shipments', shipmentRouter);
+app.use('/producer', producerRouter);
+app.use('/supplier', supplierRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -35,7 +61,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({error: 'error'});
 });
 
 module.exports = app;
