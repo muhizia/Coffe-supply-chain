@@ -43,6 +43,95 @@
                 }
             }
         },
+        "/country": {
+            "get": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get all Countries from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Countries"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Countries"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "body",
+                        "description": "Country that we want to create",
+                        "schema": {
+                          "$ref": "#/definitions/Countries_id"
+                        }
+                    }
+                ],
+                "summary": "Get the Country created",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Countries_id"
+                        }
+                    }
+                }
+            }
+        },
+        "/country/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of Country that we want to find",
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get Country from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Countries_id"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Countries"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "body",
+                        "description": "Country that we want to update",
+                        "schema": {
+                          "$ref": "#/definitions/Countries_id"
+                        }
+                    }
+                ],
+                "summary": "Get all Country from the system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Countries_id"
+                        }
+                    }
+                }
+            }
+        },
         "/producer": {
             "get": {
                 "tags": [
@@ -395,6 +484,24 @@
                 },
                 "region_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "Countries": {
+            "properties": {
+                "_id": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "Countries_id": {
+            "properties": {
+                "name": {
+                    "type": "string"
                 }
             }
         },
