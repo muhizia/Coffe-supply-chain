@@ -7,7 +7,6 @@ class shipmentDAO {
     }
 
     async getShipments() {
-
         const obj = await db({ cs: 'coffee_shipments', p: 'producers', csup: 'coffee_suppliers'}).select({'ID': 'cs.id', 'shipment_ID': 'cs.shipment_id', 'origin': 'p.names', 'destination': 'csup.names', 'quantities': 'cs.quantities', 'status': 'cs.status'}).whereRaw('?? = ??', ['cs.producer_id', 'p.id']).whereRaw('?? = ??', ['cs.coffee_supplier_id', 'csup.id']);
         return obj;
     }
