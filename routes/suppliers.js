@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 const Joi = require('joi');
-const suppliersService = require('../services/suppliers');
-const RegionDAO = require('../services/regions');
+const supplierService = require('../services/suppliers');
+const RegionService = require('../services/regions');
 const { removeUndefined } = require('../util/validate')
 // CRUD
-router.post('/suppliers', function(req, res, next) {
+router.post('/', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({ 
         name: Joi.string().required(),
@@ -18,9 +18,9 @@ router.post('/suppliers', function(req, res, next) {
     const { error } = result; 
     const valid = error == null; 
     if (valid) { 
-        const is_region = RegionDAO.getRegionById(region_id);
+        const is_region = await RegionService.getRegionById(region_id);
         if(is_region.length > 0){
-            const create_suppliers = suppliersService.create(name, address, region_id)
+            const create_suppliers = await supplierService.create(name, address, region_id)
             if(create_suppliers.length > 0){
                 return res.status(201).json({success: true, suppliers: create_suppliers[0]})
             }else{
@@ -35,7 +35,7 @@ router.post('/suppliers', function(req, res, next) {
 });
 
 
-router.get('/suppliers:id', function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({ 
         id: Joi.number().integer(),
@@ -46,7 +46,7 @@ router.get('/suppliers:id', function(req, res, next) {
     const { error } = result; 
     const valid = error == null; 
     if (valid) { 
-        const suppliers = suppliersService.getSuppliersById(id);
+        const suppliers = await supplierService.getSuppliersById(id);
         if(suppliers.length > 0){
             
             return res.status(200).json({success: true, suppliers: suppliers[0]})
@@ -59,14 +59,14 @@ router.get('/suppliers:id', function(req, res, next) {
     }
 });
 
-router.get('/suppliers', function(req, res, next) {
+router.get('/', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    const suppliers = suppliersService.getSupplierss();
+    const suppliers = await supplierService.getSuppliers();
     if (suppliers) return res.status(200).json({success: true, suppliers: suppliers})
     else res.status(500).json({success: false, message: 'An internal error'})
 });
 
-router.put('/suppliers:id', function(req, res, next) {
+router.put('/:id', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({
         id: Joi.number().integer().required(),
@@ -74,7 +74,7 @@ router.put('/suppliers:id', function(req, res, next) {
         address: Joi.string(), 
         region_id: Joi.number().integer()
     });
-    const { body } = req.body
+    const { body } = req
     const { id } = req.params
     const { name, address, region_id } = body
     const result = suppliers.validate({id: id, name: name, address: address, region_id: region_id});
@@ -82,7 +82,7 @@ router.put('/suppliers:id', function(req, res, next) {
     const valid = error == null; 
     if (valid) {
         
-        const is_suppliers = suppliersService.getSuppliersById(id);
+        const is_suppliers = await supplierService.getSuppliersById(id);
         if (is_suppliers.length <= 0){
             return res.status(400).json({success: false, message: 'Suppliers does not exist'})
         }
@@ -92,12 +92,12 @@ router.put('/suppliers:id', function(req, res, next) {
             return res.status(400).json({success: false, message: 'Prodide data to update'})
         }
 
-        const is_region = RegionDAO.getRegionById(region_id);
+        const is_region = await RegionService.getRegionById(region_id);
         if(is_region.length <= 0){
             return res.status(400).json({success: false, message: 'Region does not exist'})
         }
         
-        const update_suppliers = suppliersService.updateSuppliers(updateData, id)
+        const update_suppliers = await supplierService.updateSuppliers(updateData, id)
         if(update_suppliers.length > 0){
             return res.status(201).json({success: true, suppliers: create_suppliers[0]})
         }else{
@@ -110,7 +110,7 @@ router.put('/suppliers:id', function(req, res, next) {
     }
 });
 
-// router.delete('/suppliers:id', function(req, res, next) {
+// router.delete('/suppliers:id', async function(req, res, next) {
 //     const suppliers = Joi.object().keys({ 
 //         name: Joi.string().required(),
 //         address: Joi.string().required(), 

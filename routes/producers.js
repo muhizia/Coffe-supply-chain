@@ -74,7 +74,7 @@ router.put('/:id', async function(req, res, next) {
         address: Joi.string(), 
         region_id: Joi.number().integer()
     });
-    const { body } = req.body
+    const { body } = req
     const { id } = req.params
     const { name, address, region_id } = body
     const result = producer.validate({id: id, name: name, address: address, region_id: region_id});
@@ -86,8 +86,8 @@ router.put('/:id', async function(req, res, next) {
         if (is_producer.length <= 0){
             return res.status(400).json({success: false, message: 'Producer does not exist'})
         }
-
-        const updateData = removeUndefined({name: name, address: address, region_id: region_id})
+        // TODO: when region is undefined
+        const updateData = removeUndefined({names: name, addresses: address, region_id: region_id})
         if(updateData.length <= 0){
             return res.status(400).json({success: false, message: 'Prodide data to update'})
         }
@@ -99,7 +99,7 @@ router.put('/:id', async function(req, res, next) {
         
         const update_producer = await producerService.updateProducer(updateData, id)
         if(update_producer.length > 0){
-            return res.status(201).json({success: true, producer: create_producer[0]})
+            return res.status(201).json({success: true, producer: update_producer[0]})
         }else{
             return res.status(400).json({success: false, message: 'An error occur please try again'})
         }

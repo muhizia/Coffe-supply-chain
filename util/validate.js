@@ -17,6 +17,7 @@ const removeUndefined = (data)=>{
           delete data[key];
         }
     }
+    return data
 }
 
 
