@@ -64,32 +64,32 @@ router.put('/:id', async function(req, res, next) {
         id: Joi.number().integer().required(),
         name: Joi.string()
     });
-    const { body } = req.body
+    const { body } = req
     const { id } = req.params
     const { name } = body
     const result = region.validate({id: id, name: name});
     const { error } = result; 
     const valid = error == null; 
     if (valid) {
-        const is_region = await regionService.getCountryById(id);
+        const is_region = await regionService.getRegionById(id);
         if (is_region.length <= 0){
             return res.status(400).json({success: false, message: 'Region does not exist'})
         }
         
-        const is_country = await CountryService.getCountryById(country_id);
-        if(is_country.length <= 0 ){
-            return res.status(400).json({success: false, message: 'Country does not exist'})
-        }
+        // const is_country = await CountryService.getCountryById(country_id);
+        // if(is_country.length <= 0 ){
+        //     return res.status(400).json({success: false, message: 'Country does not exist'})
+        // }
 
         if (!name){
             return res.status(400).json({success: false, message: 'Prodide name to update'})
         }
-        const update_region = await regionService.updateCountry(name, country_id, id)
+        const update_region = await regionService.updateRegion(name, id)
         if(update_region.length <= 0){
             return res.status(400).json({success: false, message: 'An error occur please try again'})
         }
         
-        return res.status(201).json({success: true, region: create_region[0]})
+        return res.status(201).json({success: true, region: update_region[0]})
     } else {
         return res.status(400).json({success: false, message: error})
     }

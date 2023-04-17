@@ -8,7 +8,7 @@ class RegionDAO {
     }
 
     async getRegions() {
-        const obj = await db.select('id', 'names').from('regions');
+        const obj = await db.select('id', 'names', 'country_id').from('regions');
         return obj;
     }
 
@@ -17,7 +17,7 @@ class RegionDAO {
         return obj;
     }
     async create(name, country_id){
-        const obj = await db.insert({ 'names': name, 'created_at': new Date() }).into("regions").where({'country_id': country_id}).returning("*");
+        const obj = await db.insert({ 'names': name, 'country_id': country_id, 'created_at': new Date() }).into("regions").returning("*");
         return obj;
     }
 
