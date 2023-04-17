@@ -1,3 +1,5 @@
+require('dotenv').config({ path: '../config/backend/.env' });
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -9,6 +11,8 @@ const swaggerDocument = require('./swagger-ui/swagger.json');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var regionRouter = require('./routes/regions');
+var countryRouter = require('./routes/countries');
 var shipmentRouter = require('./routes/shipments');
 var producerRouter = require('./routes/producers');
 var supplierRouter = require('./routes/suppliers');
@@ -44,6 +48,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/country', countryRouter);
+app.use('/region', regionRouter);
 app.use('/shipment', shipmentRouter);
 app.use('/producer', producerRouter);
 app.use('/supplier', supplierRouter);
