@@ -62,7 +62,7 @@ router.put('/:id',  async function(req, res, next) {
         id: Joi.number().integer().required(),
         name: Joi.string()
     });
-    const { body } = req.body
+    const { body } = req
     const { id } = req.params
     const { name } = body
     const result = country.validate({id: id, name: name});
@@ -80,7 +80,7 @@ router.put('/:id',  async function(req, res, next) {
 
         const update_country =  await CountryService.updateCountry(name, id)
         if(update_country.length > 0){
-            return res.status(201).json({success: true, country: create_country[0]})
+            return res.status(201).json({success: true, country: update_country[0]})
         }else{
             return res.status(400).json({success: false, message: 'An error occur please try again'})
         }

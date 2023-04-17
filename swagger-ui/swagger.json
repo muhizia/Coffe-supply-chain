@@ -132,6 +132,95 @@
                 }
             }
         },
+        "/region": {
+            "get": {
+                "tags": [
+                    "Regions"
+                ],
+                "summary": "Get all Regions from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Regions"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Regions"
+                ],
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "body",
+                        "description": "Region that we want to create",
+                        "schema": {
+                          "$ref": "#/definitions/Regions_id"
+                        }
+                    }
+                ],
+                "summary": "Get the Region created",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Regions_id"
+                        }
+                    }
+                }
+            }
+        },
+        "/region/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of Country that we want to find",
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Regions"
+                ],
+                "summary": "Get Region from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Regions_id"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Regions"
+                ],
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "body",
+                        "description": "Region that we want to update",
+                        "schema": {
+                          "$ref": "#/definitions/Regions_id"
+                        }
+                    }
+                ],
+                "summary": "Get all Region from the system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Regions_id"
+                        }
+                    }
+                }
+            }
+        },
         "/producer": {
             "get": {
                 "tags": [
@@ -502,6 +591,27 @@
             "properties": {
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "Regions": {
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "Regions_id": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "country_id": {
+                    "type": "integer"
                 }
             }
         },

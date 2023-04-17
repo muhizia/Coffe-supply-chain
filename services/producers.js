@@ -13,8 +13,8 @@ class ProducerService {
         return producerDAO.updateProducer(producer, id);
     }
 
-    create(name, region, address){
-        return producerDAO.create(name, region, address);
+    create(name, address, region_id){
+        return producerDAO.create(name, address, region_id);
     }
 }
 
