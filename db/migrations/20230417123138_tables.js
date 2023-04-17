@@ -44,9 +44,9 @@ exports.up = function(knex) {
     table.foreign('region_id').references('regions.id');;
 }).createTable('shipments', function(table) {
     table.increments();
-    table.string('shipment_id');
-    table.string('origin_id');
-    table.string('destination_id');
+    table.string('shipment_id').notNullable().unique();
+    table.integer('origin_id').notNullable();
+    table.integer('destination_id').notNullable();
     table.double('quantities');
     table.integer('status');
     table.boolean('deleted').defaultTo(false)
