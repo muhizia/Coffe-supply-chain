@@ -3,10 +3,6 @@ const db = require('../db/db');
 class RegionDAO {
 
     async getRegionById(id) {
-        const obj = await db.select('names').from('regions').where({ 'id': id });
-        return obj;
-    }
-    async getRegionById(id) {
         const obj = await db.select('id', 'names').from('regions').where({ 'id': id });
         return obj;
     }
