@@ -1,11 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const Joi = require('joi');
-const countryService = require('../services/countries');
-const RegionDAO = require('../services/regions');
-const { removeUndefined } = require('../util/validate')
+const CountryService = require('../services/countries');
+
 // CRUD
-router.post('/', function(req, res, next) {
+router.post('/',  async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const country = Joi.object().keys({ 
         name: Joi.string().required(),
@@ -16,7 +15,7 @@ router.post('/', function(req, res, next) {
     const { error } = result; 
     const valid = error == null; 
     if (valid) { 
-        const create_country = countryService.create(name)
+        const create_country =  await CountryService.create(name)
         if(create_country.length > 0){
             return res.status(201).json({success: true, country: create_country[0]})
         }else{
@@ -28,7 +27,7 @@ router.post('/', function(req, res, next) {
 });
 
 
-router.get('/:id', function(req, res, next) {
+router.get('/:id',  async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const country = Joi.object().keys({ 
         id: Joi.number().integer(),
@@ -39,7 +38,7 @@ router.get('/:id', function(req, res, next) {
     const { error } = result; 
     const valid = error == null; 
     if (valid) { 
-        const country = countryService.getCountryById(id);
+        const country =  await CountryService.getCountryById(id);
         if(country.length > 0){
             return res.status(200).json({success: true, country: country[0]})
         }else{
@@ -50,14 +49,14 @@ router.get('/:id', function(req, res, next) {
     }
 });
 
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    const countries = countryService.getCountrys();
+    const countries = await CountryService.getCountrys();
     if (countries) return res.status(200).json({success: true, countries: countries})
     else res.status(500).json({success: false, message: 'An internal error'})
 });
 
-router.put('/:id', function(req, res, next) {
+router.put('/:id',  async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const country = Joi.object().keys({
         id: Joi.number().integer().required(),
@@ -70,7 +69,7 @@ router.put('/:id', function(req, res, next) {
     const { error } = result; 
     const valid = error == null; 
     if (valid) {
-        const is_country = countryService.getCountryById(id);
+        const is_country =  await CountryService.getCountryById(id);
         if (is_country.length <= 0){
             return res.status(400).json({success: false, message: 'Country does not exist'})
         }
@@ -79,7 +78,7 @@ router.put('/:id', function(req, res, next) {
             return res.status(400).json({success: false, message: 'Prodide name to update'})
         }
 
-        const update_country = countryService.updateCountry(name, id)
+        const update_country =  await CountryService.updateCountry(name, id)
         if(update_country.length > 0){
             return res.status(201).json({success: true, country: create_country[0]})
         }else{
@@ -90,7 +89,7 @@ router.put('/:id', function(req, res, next) {
     }
 });
 
-// router.delete('/country:id', function(req, res, next) {
+// router.delete('/country:id', async function(req, res, next) {
 //     const country = Joi.object().keys({ 
 //         name: Joi.string().required(),
 //         address: Joi.string().required(), 
