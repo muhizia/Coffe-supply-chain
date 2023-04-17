@@ -1,0 +1,453 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Coffee Supply Chain",
+        "description": "Coffee Supply Chain Application API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Users",
+            "description": "API for users in the system"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users in system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                }
+            }
+        },
+        "/producer": {
+            "get": {
+                "tags": [
+                    "Producers"
+                ],
+                "summary": "Get all Producers from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Producers"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Producers"
+                ],
+                "parameters": [
+                    {
+                        "name": "producer",
+                        "in": "body",
+                        "description": "Producer that we want to update",
+                        "schema": {
+                          "$ref": "#/definitions/Producers_id"
+                        }
+                    }
+                ],
+                "summary": "Get all Producers from the system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Producers_id"
+                        }
+                    }
+                }
+            }
+        },
+        "/producer/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of producer that we want to find",
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Producers"
+                ],
+                "summary": "Get all Producers from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Producers_id"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Producers"
+                ],
+                "parameters": [
+                    {
+                        "name": "producer",
+                        "in": "body",
+                        "description": "Producer that we want to update",
+                        "schema": {
+                          "$ref": "#/definitions/Producers_id"
+                        }
+                    }
+                ],
+                "summary": "Get all Producers from the system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Producers_id"
+                        }
+                    }
+                }
+            }
+        },
+        "/supplier/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of supplier that we want to find",
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Suppliers"
+                ],
+                "summary": "Get all Suppliers from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Producers_id"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Suppliers"
+                ],
+                "parameters": [
+                    {
+                        "name": "supplier",
+                        "in": "body",
+                        "description": "Supplier that we want to update",
+                        "schema": {
+                          "$ref": "#/definitions/Producers_id"
+                        }
+                    }
+                ],
+                "summary": "Get all Suppliers from the system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Producers_id"
+                        }
+                    }
+                }
+            }
+        },
+        "/supplier": {
+            "get": {
+                "tags": [
+                    "Suppliers"
+                ],
+                "summary": "Get all Suppliers from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Suppliers"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Suppliers"
+                ],
+                "parameters": [
+                    {
+                        "name": "supplier",
+                        "in": "body",
+                        "description": "Supplier that we want to update",
+                        "schema": {
+                          "$ref": "#/definitions/Producers_id"
+                        }
+                    }
+                ],
+                "summary": "Get all Suppliers from the system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Producers_id"
+                        }
+                    }
+                }
+            }
+        },
+        "/shipment/{shipment_id}": {
+            "parameters": [
+                {
+                    "name": "shipment_id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of shipment that we want to find",
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Shipment"
+                ],
+                "summary": "Get all Shipment from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Shipment_id"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Shipment"
+                ],
+                "parameters": [
+                    {
+                        "name": "Shipment",
+                        "in": "body",
+                        "description": "Shipment that we want to update",
+                        "schema": {
+                          "$ref": "#/definitions/Shipment_id"
+                        }
+                    }
+                ],
+                "summary": "Get all Shipments from the system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Shipment_id"
+                        }
+                    }
+                }
+            }
+        },
+        "/shipment": {
+            "get": {
+                "tags": [
+                    "Shipment"
+                ],
+                "summary": "Get all Shipment from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Shipment"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Shipment"
+                ],
+                "parameters": [
+                    {
+                        "name": "Shipment",
+                        "in": "body",
+                        "description": "Supplier that we want to update",
+                        "schema": {
+                          "$ref": "#/definitions/Shipment_id"
+                        }
+                    }
+                ],
+                "summary": "Get all Shipment from the system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Shipment_id"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "required": [
+                "name",
+                "_id",
+                "companies"
+            ],
+            "properties": {
+                "_id": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "isPublic": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "books": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "amount": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "companies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "Producers": {
+            "properties": {
+                "_id": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "isPublic": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "books": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "amount": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "companies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "Producers_id": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "region_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Shipment": {
+            "properties": {
+                "_id": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "isPublic": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "books": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "amount": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "companies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "Shipment_id": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "region_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Users": {
+            "type": "array",
+            "$ref": "#/definitions/User"
+        }
+    }
+}
