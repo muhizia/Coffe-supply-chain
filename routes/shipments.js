@@ -8,16 +8,15 @@ const RegionDAO = require('../services/regions');
 const { removeUndefined } = require('../util/validate')
 // CRUD
 router.post('/shipments', function(req, res, next) {
-    
+    res.setHeader('Content-Type', 'application/json');
     const shipments = Joi.object().keys({ 
-        shipment_id: Joi.string().required(),
         origin_id: Joi.number().integer().required(),
         destination_id: Joi.number().integer().required(),
         quantity: Joi.number().precision(2).required(),
         status: Joi.string().required()
     });
     const { body } = req
-    const { shipment_id,
+    const {
         origin_id,
         destination_id,
         quantity,
@@ -52,6 +51,7 @@ router.post('/shipments', function(req, res, next) {
 
 
 router.get('/shipments:shipment_id', function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     const shipments = Joi.object().keys({ 
         shipment_id: Joi.string().min(6).integer(),
     });
@@ -73,12 +73,14 @@ router.get('/shipments:shipment_id', function(req, res, next) {
 });
 
 router.get('/shipments', function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     const shipments = shipmentService.getShipmentss();
     if (shipments) return res.status(200).json({success: true, shipments: shipments})
     else res.status(500).json({success: false, message: 'An internal error'})
 });
 
 router.put('/shipments:id', function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     const shipments = Joi.object().keys({ 
         shipment_id: Joi.string().required(),
         origin_id: Joi.number().integer().required(),

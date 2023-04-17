@@ -5,7 +5,8 @@ const producerService = require('../services/producers');
 const RegionDAO = require('../services/regions');
 const { removeUndefined } = require('../util/validate')
 // CRUD
-router.post('/producer', function(req, res, next) {
+router.post('/', function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     const producer = Joi.object().keys({ 
         name: Joi.string().required(),
         address: Joi.string().required(), 
@@ -34,7 +35,8 @@ router.post('/producer', function(req, res, next) {
 });
 
 
-router.get('/producer:id', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     const producer = Joi.object().keys({ 
         id: Joi.number().integer(),
     });
@@ -57,13 +59,15 @@ router.get('/producer:id', function(req, res, next) {
     }
 });
 
-router.get('/producer', function(req, res, next) {
+router.get('/', function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     const producers = producerService.getProducers();
     if (producers) return res.status(200).json({success: true, producers: producers})
     else res.status(500).json({success: false, message: 'An internal error'})
 });
 
-router.put('/producer:id', function(req, res, next) {
+router.put('/:id', function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     const producer = Joi.object().keys({
         id: Joi.number().integer().required(),
         name: Joi.string(),

@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const Joi = require('joi');
-const suppliersService = require('../services/supplierss');
+const suppliersService = require('../services/suppliers');
 const RegionDAO = require('../services/regions');
 const { removeUndefined } = require('../util/validate')
 // CRUD
 router.post('/suppliers', function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({ 
         name: Joi.string().required(),
         address: Joi.string().required(), 
@@ -35,6 +36,7 @@ router.post('/suppliers', function(req, res, next) {
 
 
 router.get('/suppliers:id', function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({ 
         id: Joi.number().integer(),
     });
@@ -58,12 +60,14 @@ router.get('/suppliers:id', function(req, res, next) {
 });
 
 router.get('/suppliers', function(req, res, next) {
-    const supplierss = suppliersService.getSupplierss();
-    if (supplierss) return res.status(200).json({success: true, supplierss: supplierss})
+    res.setHeader('Content-Type', 'application/json');
+    const suppliers = suppliersService.getSupplierss();
+    if (suppliers) return res.status(200).json({success: true, suppliers: suppliers})
     else res.status(500).json({success: false, message: 'An internal error'})
 });
 
 router.put('/suppliers:id', function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({
         id: Joi.number().integer().required(),
         name: Joi.string(),
