@@ -13,8 +13,8 @@ class RegionService {
     updateRegion(name, id) {
         return RegionDAO.updateRegion(name, id);
     }
-    create(name){
-        return RegionDAO.create(name);
+    create(name, country_id){
+        return RegionDAO.create(name, country_id);
     }
 
 }
