@@ -16,5 +16,6 @@ CMD ["node", "bin/www"]
 FROM base as dev
 ENV NODE_ENV=development
 RUN npm install -g nodemon && npm install
+RUN npm install -g knex
 COPY . /
 CMD ["nodemon", "bin/www"]
