@@ -17,11 +17,13 @@ exports.up = function(knex) {
 }).createTable('countries', function(table) {
     table.increments();
     table.string('names');
+    table.boolean('deleted').defaultTo(false)
     table.timestamps();
 }).createTable('regions', function(table) {
     table.increments();
     table.string('names');
     table.integer('country_id');
+    table.boolean('deleted').defaultTo(false)
     table.timestamps();
     table.foreign('country_id').references('countries.id');
 }).createTable('producers', function(table) {
@@ -29,6 +31,7 @@ exports.up = function(knex) {
     table.string('names');
     table.string('addresses');
     table.integer('region_id');
+    table.boolean('deleted').defaultTo(false)
     table.timestamps();
     table.foreign('region_id').references('regions.id');;
 }).createTable('suppliers', function(table) {
@@ -36,6 +39,7 @@ exports.up = function(knex) {
     table.string('names');
     table.string('addresses');
     table.integer('region_id');
+    table.boolean('deleted').defaultTo(false)
     table.timestamps();
     table.foreign('region_id').references('regions.id');;
 }).createTable('shipments', function(table) {
@@ -45,6 +49,7 @@ exports.up = function(knex) {
     table.string('destination_id');
     table.double('quantities');
     table.integer('status');
+    table.boolean('deleted').defaultTo(false)
     table.timestamps();
     table.foreign('origin_id').references('producers.id');;
     table.foreign('destination_id').references('suppliers.id');;
