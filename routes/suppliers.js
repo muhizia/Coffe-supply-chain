@@ -46,7 +46,7 @@ router.get('/:id', async function(req, res, next) {
     const { error } = result; 
     const valid = error == null; 
     if (valid) { 
-        const suppliers = await supplierService.getSuppliersById(id);
+        const suppliers = await supplierService.getSupplierById(id);
         if(suppliers.length > 0){
             
             return res.status(200).json({success: true, suppliers: suppliers[0]})
@@ -82,12 +82,12 @@ router.put('/:id', async function(req, res, next) {
     const valid = error == null; 
     if (valid) {
         
-        const is_suppliers = await supplierService.getSuppliersById(id);
+        const is_suppliers = await supplierService.getSupplierById(id);
         if (is_suppliers.length <= 0){
             return res.status(400).json({success: false, message: 'Suppliers does not exist'})
         }
 
-        const updateData = removeUndefined({name: name, address: address, region_id: region_id})
+        const updateData = removeUndefined({names: name, addresses: address, region_id: region_id})
         if(updateData.length <= 0){
             return res.status(400).json({success: false, message: 'Prodide data to update'})
         }
@@ -97,9 +97,9 @@ router.put('/:id', async function(req, res, next) {
             return res.status(400).json({success: false, message: 'Region does not exist'})
         }
         
-        const update_suppliers = await supplierService.updateSuppliers(updateData, id)
+        const update_suppliers = await supplierService.updateSupplier(updateData, id)
         if(update_suppliers.length > 0){
-            return res.status(201).json({success: true, suppliers: create_suppliers[0]})
+            return res.status(201).json({success: true, suppliers: update_suppliers[0]})
         }else{
             return res.status(400).json({success: false, message: 'An error occur please try again'})
         }

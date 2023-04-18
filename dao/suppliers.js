@@ -16,8 +16,8 @@ class SupplierDAO {
         const obj = await db('suppliers').update(supplier).where({'id': id}).returning('*');
         return obj;
     }
-    async create(name, region, address){
-        const obj = await db.insert({ names: name, region_id: region, addresses: address, created_at: new Date() }).into("suppliers").returning('id');
+    async create(name, address, region_id){
+        const obj = await db.insert({ names: name, region_id: region_id, addresses: address, created_at: new Date() }).into("suppliers").returning('*');
         return obj;
     }
 }

@@ -13,8 +13,8 @@ class SupplierService {
         return supplierDAO.updateSupplier(supplier, id);
     }
 
-    create(name, region, address){
-        return supplierDAO.create(name, region, address);
+    create(name, address, region_id){
+        return supplierDAO.create(name, address, region_id);
     }
 }
 

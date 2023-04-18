@@ -4,10 +4,9 @@ const Joi = require('joi');
 const shipmentService = require('../services/shipments');
 const producerService = require('../services/producers')
 const supplierService = require('../services/suppliers')
-const RegionDAO = require('../services/regions');
 const { removeUndefined } = require('../util/validate')
 // CRUD
-router.post('/shipments', function(req, res, next) {
+router.post('/shipments', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const shipments = Joi.object().keys({ 
         origin_id: Joi.number().integer().required(),
@@ -26,18 +25,18 @@ router.post('/shipments', function(req, res, next) {
     const valid = error == null; 
     if (valid) {
 
-        const producer = producerService.getProducerById(origin_id);
+        const producer = await producerService.getProducerById(origin_id);
         if (producer.length <= 0){
             return res.status(400).json({success: false, message: 'Origin does not exist'})
         }
 
-        const supplier = supplierService.getSupplierById(destination_id);
+        const supplier = await supplierService.getSupplierById(destination_id);
         if (supplier.length <= 0){
             return res.status(400).json({success: false, message: 'Origin does not exist'})
         }
 
         
-        const create_shipments = shipmentService.create(origin_id, destination_id, quantity, status)
+        const create_shipments = await shipmentService.create(origin_id, destination_id, quantity, status)
         if(create_shipments.length > 0){
             return res.status(201).json({success: true, shipments: create_shipments[0]})
         }else{
@@ -50,7 +49,7 @@ router.post('/shipments', function(req, res, next) {
 });
 
 
-router.get('/shipments:shipment_id', function(req, res, next) {
+router.get('/shipments:shipment_id', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const shipments = Joi.object().keys({ 
         shipment_id: Joi.string().min(6).integer(),
@@ -61,7 +60,7 @@ router.get('/shipments:shipment_id', function(req, res, next) {
     const { error } = result; 
     const valid = error == null; 
     if (valid) { 
-        const shipments = shipmentService.getShipmentsById(shipment_id);
+        const shipments = await shipmentService.getShipmentsById(shipment_id);
         if(shipments.length > 0){
             return res.status(200).json({success: true, shipments: shipments[0]})
         }else{
@@ -72,14 +71,14 @@ router.get('/shipments:shipment_id', function(req, res, next) {
     }
 });
 
-router.get('/shipments', function(req, res, next) {
+router.get('/shipments', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    const shipments = shipmentService.getShipmentss();
+    const shipments = await shipmentService.getShipmentss();
     if (shipments) return res.status(200).json({success: true, shipments: shipments})
     else res.status(500).json({success: false, message: 'An internal error'})
 });
 
-router.put('/shipments:id', function(req, res, next) {
+router.put('/shipments:id', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const shipments = Joi.object().keys({ 
         shipment_id: Joi.string().required(),
@@ -100,7 +99,7 @@ router.put('/shipments:id', function(req, res, next) {
     const valid = error == null; 
     if (valid) {
         
-        const is_shipments = shipmentService.getShipmentsById(id);
+        const is_shipments = await shipmentService.getShipmentsById(id);
         if (is_shipments.length <= 0){
             return res.status(400).json({success: false, message: 'Shipments does not exist'})
         }
@@ -110,19 +109,19 @@ router.put('/shipments:id', function(req, res, next) {
             return res.status(400).json({success: false, message: 'Prodide data to update'})
         }
 
-        const producer = producerService.getProducerById(origin_id);
+        const producer = await producerService.getProducerById(origin_id);
         if (producer.length <= 0){
             return res.status(400).json({success: false, message: 'Origin does not exist'})
         }
 
-        const supplier = supplierService.getSupplierById(destination_id);
+        const supplier = await supplierService.getSupplierById(destination_id);
         if (supplier.length <= 0){
             return res.status(400).json({success: false, message: 'Origin does not exist'})
         }
         
-        const update_shipments = shipmentService.updateShipments(updateData, id)
+        const update_shipments = await shipmentService.updateShipment(updateData, id)
         if(update_shipments.length > 0){
-            return res.status(201).json({success: true, shipments: create_shipments[0]})
+            return res.status(201).json({success: true, shipments: update_shipments[0]})
         }else{
             return res.status(400).json({success: false, message: 'An error occur please try again'})
         }
@@ -133,7 +132,7 @@ router.put('/shipments:id', function(req, res, next) {
     }
 });
 
-// router.delete('/shipments:id', function(req, res, next) {
+// router.delete('/shipments:id', async function(req, res, next) {
 //     const shipments = Joi.object().keys({ 
 //         name: Joi.string().required(),
 //         address: Joi.string().required(), 
