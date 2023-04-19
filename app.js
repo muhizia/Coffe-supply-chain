@@ -1,5 +1,4 @@
-require('dotenv').config({ path: '../config/backend/.env' });
-
+const dotenv = require('dotenv');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -18,7 +17,8 @@ var producerRouter = require('./routes/producers');
 var supplierRouter = require('./routes/suppliers');
 
 var app = express();
-
+// get config vars
+dotenv.config();
 
 
 app.use(

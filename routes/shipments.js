@@ -5,6 +5,7 @@ const shipmentService = require('../services/shipments');
 const producerService = require('../services/producers')
 const supplierService = require('../services/suppliers')
 const { removeUndefined } = require('../util/validate')
+const {authenticateToken} = require('../util/jwt')
 // CRUD
 router.post('/', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');

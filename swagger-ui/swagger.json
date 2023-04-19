@@ -9,7 +9,7 @@
             "url": "https://opensource.org/licenses/MIT"
         }
     },
-    "host": "localhost:3000",
+    "host": "localhost:4000",
     "basePath": "/",
     "tags": [
         {
@@ -27,10 +27,41 @@
         "application/json"
     ],
     "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "parameters": [
+                    {
+                        "name": "auth",
+                        "in": "body",
+                        "description": "User that we want to create",
+                        "schema": {
+                            "$ref": "#/definitions/Auth"
+                        }
+                    }
+                ],
+                "summary": "Authenticate a user in system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "tags": [
                     "Users"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
                 ],
                 "summary": "Get all users in system",
                 "responses": {
@@ -38,6 +69,79 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/Users"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User that we want to create",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "summary": "Create a user in system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of Country that we want to find",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a user from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User that we want to update",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "summary": "Upddate a user from the system",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
                         }
                     }
                 }
@@ -68,7 +172,7 @@
                         "in": "body",
                         "description": "Country that we want to create",
                         "schema": {
-                          "$ref": "#/definitions/Countries_id"
+                            "$ref": "#/definitions/Countries_id"
                         }
                     }
                 ],
@@ -117,7 +221,7 @@
                         "in": "body",
                         "description": "Country that we want to update",
                         "schema": {
-                          "$ref": "#/definitions/Countries_id"
+                            "$ref": "#/definitions/Countries_id"
                         }
                     }
                 ],
@@ -157,7 +261,7 @@
                         "in": "body",
                         "description": "Region that we want to create",
                         "schema": {
-                          "$ref": "#/definitions/Regions_id"
+                            "$ref": "#/definitions/Regions_id"
                         }
                     }
                 ],
@@ -206,7 +310,7 @@
                         "in": "body",
                         "description": "Region that we want to update",
                         "schema": {
-                          "$ref": "#/definitions/Regions_id"
+                            "$ref": "#/definitions/Regions_id"
                         }
                     }
                 ],
@@ -246,7 +350,7 @@
                         "in": "body",
                         "description": "Producer that we want to update",
                         "schema": {
-                          "$ref": "#/definitions/Producers_id"
+                            "$ref": "#/definitions/Producers_id"
                         }
                     }
                 ],
@@ -295,7 +399,7 @@
                         "in": "body",
                         "description": "Producer that we want to update",
                         "schema": {
-                          "$ref": "#/definitions/Producers_id"
+                            "$ref": "#/definitions/Producers_id"
                         }
                     }
                 ],
@@ -344,7 +448,7 @@
                         "in": "body",
                         "description": "Supplier that we want to update",
                         "schema": {
-                          "$ref": "#/definitions/Producers_id"
+                            "$ref": "#/definitions/Producers_id"
                         }
                     }
                 ],
@@ -384,7 +488,7 @@
                         "in": "body",
                         "description": "Supplier that we want to update",
                         "schema": {
-                          "$ref": "#/definitions/Producers_id"
+                            "$ref": "#/definitions/Producers_id"
                         }
                     }
                 ],
@@ -433,7 +537,7 @@
                         "in": "body",
                         "description": "Shipment that we want to update",
                         "schema": {
-                          "$ref": "#/definitions/Shipment_id"
+                            "$ref": "#/definitions/Shipment_id"
                         }
                     }
                 ],
@@ -473,7 +577,7 @@
                         "in": "body",
                         "description": "Supplier that we want to update",
                         "schema": {
-                          "$ref": "#/definitions/Shipment_id"
+                            "$ref": "#/definitions/Shipment_id"
                         }
                     }
                 ],
@@ -492,40 +596,39 @@
     "definitions": {
         "User": {
             "required": [
-                "name",
-                "_id",
-                "companies"
+                "email",
+                "password",
+                "re_type"
             ],
             "properties": {
-                "_id": {
-                    "type": "integer",
-                    "uniqueItems": true
-                },
-                "isPublic": {
-                    "type": "boolean"
-                },
-                "name": {
+                "email": {
                     "type": "string"
                 },
-                "books": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "amount": {
-                                "type": "number"
-                            }
-                        }
-                    }
+                "firstname": {
+                    "type": "string"
                 },
-                "companies": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                "lastname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "re_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "Auth": {
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
                 }
             }
         },
@@ -666,5 +769,14 @@
             "type": "array",
             "$ref": "#/definitions/User"
         }
-    }
+    },
+    "securityDefinitions": {
+        "bearerAuth": {
+          "name": "Authorization",
+          "in": "header",
+          "type": "apiKey",
+          "description": "JWT Authorization header"
+        }
+      },
+      "security": [ { "bearerAuth": [] } ]
 }

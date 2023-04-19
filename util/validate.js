@@ -1,3 +1,6 @@
+const bcrypt = require('bcrypt');
+
+
 const validateEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
 }
@@ -20,5 +23,10 @@ const removeUndefined = (data)=>{
     return data
 }
 
+async function getHash(pwd) {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(pwd, salt);
+    return hash;
+}
 
-module.exports = { validatePasword, validateEmail, isNumeric, removeUndefined };
+module.exports = { validatePasword, validateEmail, isNumeric, removeUndefined, getHash };

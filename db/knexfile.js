@@ -4,7 +4,7 @@
 module.exports = {
     development: {
         client: 'pg',
-        connection: 'psql://muhizi:muhizi123@db:5432/coffee_supply_chain', //process.env.DATABASE_URL,
+        connection: process.env.DATABASE_URL, //process.env.DATABASE_URL,
         pool: {
             min: 2,
             max: 100
@@ -15,7 +15,7 @@ module.exports = {
     },
     production: {
         client: 'pg',
-        connection: 'psql://muhizi:muhizi123@db:5432/coffee_supply_chain',
+        connection: process.env.DATABASE_URL,
         pool: {
             min: 2,
             max: 100

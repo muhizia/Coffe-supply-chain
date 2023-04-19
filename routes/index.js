@@ -27,6 +27,7 @@ router.post('/login', async function(req, res, next) {
     const result = users.validate(body);
     const { error } = result; 
     const valid = error == null;
+    console.log('------>', valid)
     if(!valid) return res.status(400).json({success: false, message: error.message });
 
     const user = await userService.getUserByEmail(email);

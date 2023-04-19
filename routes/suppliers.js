@@ -4,7 +4,8 @@ const Joi = require('joi');
 const supplierService = require('../services/suppliers');
 const RegionService = require('../services/regions');
 const { removeUndefined } = require('../util/validate')
-// CRUD
+const {authenticateToken} = require('../util/jwt')
+
 router.post('/', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({ 
@@ -59,7 +60,7 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
-router.get('/', async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = await supplierService.getSuppliers();
     if (suppliers) return res.status(200).json({success: true, suppliers: suppliers})

@@ -1,3 +1,4 @@
 .git
 node_modules
-Coffe-Supply-Chain-Fontend
+config/fontend/
+fontend

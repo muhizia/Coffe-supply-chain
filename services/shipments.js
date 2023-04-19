@@ -1,4 +1,4 @@
-const shipmentDAO = require('../dao/producers');
+const shipmentDAO = require('../dao/shipments');
 class shipmentService {
     getShipmentById(shipment_id) {
         return shipmentDAO.getShipmentById(shipment_id);
