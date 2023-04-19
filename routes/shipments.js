@@ -6,7 +6,7 @@ const producerService = require('../services/producers')
 const supplierService = require('../services/suppliers')
 const { removeUndefined } = require('../util/validate')
 // CRUD
-router.post('/shipments', async function(req, res, next) {
+router.post('/', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const shipments = Joi.object().keys({ 
         origin_id: Joi.number().integer().required(),
@@ -44,15 +44,15 @@ router.post('/shipments', async function(req, res, next) {
         }
         
     } else {
-        return res.status(400).json({success: false, message: error})
+        return res.status(400).json({success: false, message: error.message})
     }
 });
 
 
-router.get('/shipments:shipment_id', async function(req, res, next) {
+router.get('/:shipment_id', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const shipments = Joi.object().keys({ 
-        shipment_id: Joi.string().min(6).integer(),
+        shipment_id: Joi.string().min(6).required(),
     });
     const { params } = req
     const { shipment_id } = params
@@ -67,18 +67,18 @@ router.get('/shipments:shipment_id', async function(req, res, next) {
             return res.status(400).json({success: false, message: 'Shipment does not exist'})
         }
     } else {
-        return res.status(400).json({success: false, message: error})
+        return res.status(400).json({success: false, message: error.message.message})
     }
 });
 
-router.get('/shipments', async function(req, res, next) {
+router.get('/', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
-    const shipments = await shipmentService.getShipmentss();
+    const shipments = await shipmentService.getShipments();
     if (shipments) return res.status(200).json({success: true, shipments: shipments})
     else res.status(500).json({success: false, message: 'An internal error'})
 });
 
-router.put('/shipments:id', async function(req, res, next) {
+router.put('/:id', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const shipments = Joi.object().keys({ 
         shipment_id: Joi.string().required(),
@@ -128,7 +128,7 @@ router.put('/shipments:id', async function(req, res, next) {
             
         
     } else {
-        return res.status(400).json({success: false, message: error})
+        return res.status(400).json({success: false, message: error.message})
     }
 });
 

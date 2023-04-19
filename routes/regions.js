@@ -24,7 +24,7 @@ router.post('/', async function(req, res, next) {
             return res.status(400).json({success: false, message: 'An error occur please try again'})
         }
     } else {
-        return res.status(400).json({success: false, message: error})
+        return res.status(400).json({success: false, message: error.message})
     }
 });
 
@@ -47,7 +47,7 @@ router.get('/:id', async function(req, res, next) {
             return res.status(400).json({success: false, message: 'Region does not exist'})
         }
     } else {
-        return res.status(400).json({success: false, message: error})
+        return res.status(400).json({success: false, message: error.message})
     }
 });
 
@@ -91,7 +91,7 @@ router.put('/:id', async function(req, res, next) {
         
         return res.status(201).json({success: true, region: update_region[0]})
     } else {
-        return res.status(400).json({success: false, message: error})
+        return res.status(400).json({success: false, message: error.message})
     }
 });
 
