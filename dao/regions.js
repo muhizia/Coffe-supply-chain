@@ -6,6 +6,10 @@ class RegionDAO {
         const obj = await db.select('id', 'names').from('regions').where({ 'id': id });
         return obj;
     }
+    async getRegionByCountry(id) {
+        const obj = await db.select('id', 'names').from('regions').where({ 'country_id': id });
+        return obj;
+    }
 
     async getRegions() {
         const obj = await db.select('id', 'names', 'country_id').from('regions');

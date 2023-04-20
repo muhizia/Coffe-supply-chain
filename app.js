@@ -15,11 +15,14 @@ var countryRouter = require('./routes/countries');
 var shipmentRouter = require('./routes/shipments');
 var producerRouter = require('./routes/producers');
 var supplierRouter = require('./routes/suppliers');
-
+var cors = require('cors')
 var app = express();
 // get config vars
 dotenv.config();
 
+
+
+app.use(cors())
 
 app.use(
   '/api-docs',

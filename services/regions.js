@@ -6,6 +6,10 @@ class RegionService {
         return RegionDAO.getRegionById(id);
     }
 
+    getRegionByCountry(id) {
+        return RegionDAO.getRegionByCountry(id);
+    }
+
     getRegions() {
         return RegionDAO.getRegions();
     }

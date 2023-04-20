@@ -276,6 +276,33 @@
                 }
             }
         },
+        "/region/country/{country_id}": {
+            "get": {
+                "tags": [
+                    "Regions"
+                ],
+                "parameters": [
+                    {
+                        "name": "country_id",
+                        "in": "path",
+                        "required": true,
+                        "description": "country that we want to select",
+                        "schema": {
+                            "$ref": "#/definitions/Regions_country_id"
+                        }
+                    }
+                ],
+                "summary": "Get all Regions from the system using country id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Regions"
+                        }
+                    }
+                }
+            }
+        },
         "/region/{id}": {
             "parameters": [
                 {
@@ -577,7 +604,7 @@
                         "in": "body",
                         "description": "Supplier that we want to update",
                         "schema": {
-                            "$ref": "#/definitions/Shipment_id"
+                            "$ref": "#/definitions/Shipment"
                         }
                     }
                 ],
@@ -718,37 +745,27 @@
                 }
             }
         },
-        "Shipment": {
+        "Regions_country_id": {
             "properties": {
-                "_id": {
-                    "type": "integer",
-                    "uniqueItems": true
+                "country_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Shipment": {
+            "required": ["origin_id", "destination_id", "quantity", "status"],
+            "properties": {
+                "origin_id": {
+                    "type": "integer"
                 },
-                "isPublic": {
-                    "type": "boolean"
+                "destination_id": {
+                    "type": "integer"
                 },
-                "name": {
+                "quantity": {
+                    "type": "integer"
+                },
+                "status": {
                     "type": "string"
-                },
-                "books": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "amount": {
-                                "type": "number"
-                            }
-                        }
-                    }
-                },
-                "companies": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
                 }
             }
         },

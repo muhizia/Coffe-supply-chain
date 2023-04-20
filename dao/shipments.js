@@ -16,7 +16,7 @@ class shipmentDAO {
         return obj;
     }
     async create(producer_id, supplier_id, quantity, status, shipment_id){
-        const obj = await db.insert({ shipment_id: shipment_id, producer_id: producer_id, supplier_id: supplier_id, quantities: quantity, status: status, created_at: new Date() }).into("shipments").returning("*");
+        const obj = await db.insert({ shipment_id: shipment_id, origin_id: producer_id, destination_id: supplier_id, quantities: quantity, status: status, created_at: new Date() }).into("shipments").returning("*");
         return obj;
     }
     async getLastShipmentID(){

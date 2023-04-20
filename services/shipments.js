@@ -15,7 +15,7 @@ class shipmentService {
         return shipmentDAO.create(producer_id, supplier_id, quantity, status, shipment_id);
     }
     getLastShipmentID(){
-        return shipmentDAO.getLastShipmentID(shipment_id);
+        return shipmentDAO.getLastShipmentID();
     }
 }
 

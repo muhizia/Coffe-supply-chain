@@ -6,7 +6,7 @@ const RegionService = require('../services/regions');
 const { removeUndefined } = require('../util/validate')
 const {authenticateToken} = require('../util/jwt')
 
-router.post('/', async function(req, res, next) {
+router.post('/', authenticateToken, async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({ 
         name: Joi.string().required(),
@@ -36,7 +36,7 @@ router.post('/', async function(req, res, next) {
 });
 
 
-router.get('/:id', async function(req, res, next) {
+router.get('/:id', authenticateToken, async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({ 
         id: Joi.number().integer(),
@@ -60,14 +60,14 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
-router.get('/', authenticateToken, async function(req, res, next) {
+router.get('/', /*authenticateToken,*/ async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = await supplierService.getSuppliers();
     if (suppliers) return res.status(200).json({success: true, suppliers: suppliers})
     else res.status(500).json({success: false, message: 'An internal error'})
 });
 
-router.put('/:id', async function(req, res, next) {
+router.put('/:id', authenticateToken, async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({
         id: Joi.number().integer().required(),

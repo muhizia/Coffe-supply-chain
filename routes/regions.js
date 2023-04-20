@@ -58,6 +58,26 @@ router.get('/', async function(req, res, next) {
     else res.status(500).json({success: false, message: 'An internal error'})
 });
 
+router.get('/country/:country_id', async function(req, res, next) {
+    const region = Joi.object().keys({ 
+        country_id: Joi.number().integer(),
+    });
+    const { params } = req
+    const { country_id } = params
+    const result = region.validate(params);
+    const { error } = result; 
+    const valid = error == null; 
+    if (!valid)  return res.status(400).json({success: false, message: error.message})
+    const country =  await CountryService.getCountryById(country_id);
+    if (country.length <= 0) return res.status(400).json({success: false, message: 'Country does not exist'})
+    
+    const region_country = await regionService.getRegionByCountry(country_id);
+    if(region_country.length <= 0) return res.status(400).json({success: false, message: 'Region does not exist'})
+        
+    return res.status(200).json({success: true, region: region_country})
+    
+});
+
 router.put('/:id', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const region = Joi.object().keys({

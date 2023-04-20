@@ -14,10 +14,10 @@ const isNumeric = (str) => {
         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
 }
 
-const removeUndefined = (data)=>{
+const removeUndefined = (data) => {
     for (let key in data) {
         if (data[key] === undefined) {
-          delete data[key];
+            delete data[key];
         }
     }
     return data
@@ -29,4 +29,13 @@ async function getHash(pwd) {
     return hash;
 }
 
-module.exports = { validatePasword, validateEmail, isNumeric, removeUndefined, getHash };
+const generateShipmentID = (shipment) => {
+    if (shipment) {
+        let shipment_ID = parseInt(shipment.shipment_id.replace('SHP', '')) + 1
+        return 'SHP' + shipment_ID.toString().padStart(1, "0");
+    } else {
+        return 'SHP001';
+    }
+}
+
+module.exports = { validatePasword, validateEmail, isNumeric, removeUndefined, getHash, generateShipmentID };

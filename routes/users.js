@@ -3,6 +3,7 @@ var router = express.Router();
 const Joi = require('joi');
 const userService = require('../services/users');
 const { removeUndefined, getHash } = require('../util/validate')
+const { authenticateToken } = require('../util/jwt')
 // CRUD
 router.post('/', async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
@@ -50,7 +51,7 @@ router.post('/', async function(req, res, next) {
 });
 
 
-router.get('/:id', async function(req, res, next) {
+router.get('/:id', authenticateToken, async function(req, res, next) {
   res.setHeader('Content-Type', 'application/json');
   const users = Joi.object().keys({ 
       id: Joi.number().integer().required()
@@ -72,7 +73,7 @@ router.get('/:id', async function(req, res, next) {
   }
 });
 
-router.get('/', async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const users = await userService.getUsers();
     if (users) return res.status(200).json({success: true, users: users})

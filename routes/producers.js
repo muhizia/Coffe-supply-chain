@@ -4,8 +4,9 @@ const Joi = require('joi');
 const producerService = require('../services/producers');
 const RegionService = require('../services/regions');
 const { removeUndefined } = require('../util/validate')
-// CRUD
-router.post('/', async function(req, res, next) {
+const { authenticateToken } = require('../util/jwt')
+
+router.post('/', authenticateToken, async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const producer = Joi.object().keys({ 
         name: Joi.string().required(),
@@ -35,7 +36,7 @@ router.post('/', async function(req, res, next) {
 });
 
 
-router.get('/:id', async function(req, res, next) {
+router.get('/:id', authenticateToken, async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const producer = Joi.object().keys({ 
         id: Joi.number().integer(),
@@ -59,14 +60,14 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
-router.get('/', async function(req, res, next) {
+router.get('/'/*, authenticateToken*/, async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const producers = await producerService.getProducers();
     if (producers) return res.status(200).json({success: true, producers: producers})
     else res.status(500).json({success: false, message: 'An internal error'})
 });
 
-router.put('/:id', async function(req, res, next) {
+router.put('/:id', authenticateToken, async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const producer = Joi.object().keys({
         id: Joi.number().integer().required(),
