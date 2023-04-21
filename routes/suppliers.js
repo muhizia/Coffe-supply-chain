@@ -53,7 +53,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
     if(_suppliers.length <= 0)
         return res.status(400).json({success: false, message: 'Supplier does not exist'})
         
-    return res.status(200).json({success: true, suppliers: _suppliers[0]})
+    return res.status(200).json({success: true, supplier: _suppliers[0]})
 });
 
 router.get('/', /*authenticateToken,*/ async function(req, res, next) {
