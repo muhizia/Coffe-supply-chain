@@ -6,7 +6,7 @@ const RegionService = require('../services/regions');
 const { removeUndefined } = require('../util/validate')
 const {authenticateToken} = require('../util/jwt')
 
-router.post('/', authenticateToken, async function(req, res, next) {
+router.post('/', /* authenticateToken,*/ async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = Joi.object().keys({ 
         name: Joi.string().required(),
@@ -46,18 +46,14 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
     const result = suppliers.validate(params);
     const { error } = result; 
     const valid = error == null; 
-    if (valid) { 
-        const suppliers = await supplierService.getSupplierById(id);
-        if(suppliers.length > 0){
-            
-            return res.status(200).json({success: true, suppliers: suppliers[0]})
-            
-        }else{
-            return res.status(400).json({success: false, message: 'Supplier does not exist'})
-        }
-    } else {
+    if (!valid) 
         return res.status(400).json({success: false, message: error.message})
-    }
+
+    const _suppliers = await supplierService.getSupplierById(id);
+    if(_suppliers.length <= 0)
+        return res.status(400).json({success: false, message: 'Supplier does not exist'})
+        
+    return res.status(200).json({success: true, suppliers: _suppliers[0]})
 });
 
 router.get('/', /*authenticateToken,*/ async function(req, res, next) {
