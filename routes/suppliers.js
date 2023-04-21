@@ -56,7 +56,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
     return res.status(200).json({success: true, supplier: _suppliers[0]})
 });
 
-router.get('/', /*authenticateToken,*/ async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
     res.setHeader('Content-Type', 'application/json');
     const suppliers = await supplierService.getSuppliers();
     if (suppliers) return res.status(200).json({success: true, suppliers: suppliers})
