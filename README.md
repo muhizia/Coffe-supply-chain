@@ -12,13 +12,22 @@
 ```
 git clone https://github.com/muhizia/Coffe-supply-chain.git
 ```
+```
+git clone https://github.com/muhizia/Coffe-Supply-Chain-Fotend.git
+```
 
 # Installing dependancies
 
-```
-yarn install or npm install
-```
-# Building the application and deploying localy
+
+### `cd Coffe-supply-chain`
+### `npm install       # yarn install`
+
+
+### `cd ../Coffe-Supply-Chain-Fotend`
+### `npm install      # yarn install or `
+
+
+## Building the application and deploying localy
 Make is used to run all the command to build
 
 ```
@@ -28,7 +37,7 @@ make migrate    # migrate all migrations on the image
 make seed       # run the seeds (inital datas)
 ```
 
-# Run test
+# Run test (Coffe-supply-chain)
 ```
 npm run test
 ```
