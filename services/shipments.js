@@ -3,7 +3,9 @@ class shipmentService {
     getShipmentById(shipment_id) {
         return shipmentDAO.getShipmentById(shipment_id);
     }
-
+    getShipmentDetailsById(shipment_id) {
+        return shipmentDAO.getShipmentDetailsById(shipment_id);
+    }
     getShipments() {
         return shipmentDAO.getShipments();
     }

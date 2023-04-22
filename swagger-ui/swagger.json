@@ -579,6 +579,31 @@
                 }
             }
         },
+        "/shipment/details/{shipment_id}": {
+            "parameters": [
+                {
+                    "name": "shipment_id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of shipment that we want to find",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Shipment"
+                ],
+                "summary": "Get all Shipment from the system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Shipment_id"
+                        }
+                    }
+                }
+            }
+        },
         "/shipment": {
             "get": {
                 "tags": [

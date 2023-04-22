@@ -39,7 +39,7 @@ router.post('/', authenticateToken, async function(req, res, next) {
             return res.status(400).json({success: false, message: 'Quantity must be valid'})
         }
         const last_ID = await shipmentService.getLastShipmentID();
-        console.log('---->', last_ID)
+
         const shipment_id = generateShipmentID(last_ID[0]);
         const create_shipments = await shipmentService.create(origin_id, destination_id, quantity, status, shipment_id);
         
@@ -65,16 +65,32 @@ router.get('/:shipment_id', authenticateToken, async function(req, res, next) {
     const result = shipments.validate(params);
     const { error } = result; 
     const valid = error == null; 
-    if (valid) { 
-        const shipments = await shipmentService.getShipmentsById(shipment_id);
-        if(shipments.length > 0){
-            return res.status(200).json({success: true, shipments: shipments[0]});
-        }else{
-            return res.status(400).json({success: false, message: 'Shipment does not exist'});
-        }
-    } else {
-        return res.status(400).json({success: false, message: error.message.message});
-    }
+    if (!valid) return res.status(400).json({success: false, message: error.message.message});
+    
+    const _shipments = await shipmentService.getShipmentById(shipment_id);
+    if(_shipments.length <= 0) return res.status(400).json({success: false, message: 'Shipment does not exist'});
+    
+    return res.status(200).json({success: true, shipments: _shipments[0]});
+    
+});
+
+router.get('/details/:shipment_id', authenticateToken, async function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
+    const shipments = Joi.object().keys({ 
+        shipment_id: Joi.string().min(6).required(),
+    });
+    const { params } = req
+    const { shipment_id } = params
+    const result = shipments.validate(params);
+    const { error } = result; 
+    const valid = error == null; 
+    if (!valid) return res.status(400).json({success: false, message: error.message});
+    
+    const _shipments = await shipmentService.getShipmentDetailsById(shipment_id);
+    if(_shipments.length <= 0) return res.status(400).json({success: false, message: 'Shipment details does not exist'});
+    
+    return res.status(200).json({success: true, shipments: _shipments});
+    
 });
 
 router.get('/', authenticateToken, async function(req, res, next) {
@@ -105,7 +121,7 @@ router.put('/:id', authenticateToken, async function(req, res, next) {
     const valid = error == null; 
     if (valid) {
         
-        const is_shipments = await shipmentService.getShipmentsById(id);
+        const is_shipments = await shipmentService.getShipmentById(id);
         if (is_shipments.length <= 0){
             return res.status(400).json({success: false, message: 'Shipments does not exist'})
         }

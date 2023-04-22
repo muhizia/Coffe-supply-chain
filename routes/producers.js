@@ -20,6 +20,7 @@ router.post('/', authenticateToken, async function (req, res, next) {
     const valid = error == null;
     if (valid) {
         const is_region = await RegionService.getRegionById(region_id);
+        console.log('---->', is_region)
         if (is_region.length > 0) {
             const create_producer = await producerService.create(name, address, region_id)
             if (create_producer.length > 0) {

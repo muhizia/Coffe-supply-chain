@@ -16,7 +16,7 @@ const isNumeric = (str) => {
 
 const removeUndefined = (data) => {
     for (let key in data) {
-        if (data[key] === undefined) {
+        if (data[key] === undefined || !data[key]) {
             delete data[key];
         }
     }
@@ -30,11 +30,11 @@ async function getHash(pwd) {
 }
 
 const generateShipmentID = (shipment) => {
-    if (shipment) {
+    if(typeof shipment !== 'object' || !shipment.shipment_id || typeof shipment.shipment_id !== 'string' || !/^\d{3}[a-zA-Z]{3}$/.test(shipment.shipment_id)){
+        return undefined
+    }else{
         let shipment_ID = parseInt(shipment.shipment_id.replace('SHP', '')) + 1
-        return 'SHP' + shipment_ID.toString().padStart(1, "0");
-    } else {
-        return 'SHP001';
+        return 'SHP' + shipment_ID.toString().padStart(3, "0");
     }
 }
 

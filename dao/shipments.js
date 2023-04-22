@@ -5,6 +5,17 @@ class shipmentDAO {
         const obj = await db({ cs: 'shipments', p: 'producers', csup: 'suppliers'}).select({'ID': 'cs.id', 'shipment_ID': 'cs.shipment_id', 'origin': 'p.names', 'destination': 'csup.names', 'quantities': 'cs.quantities', 'status': 'cs.status'}).whereRaw('?? = ??', ['cs.origin_id', 'p.id']).whereRaw('?? = ??', ['cs.destination_id', 'csup.id']).where({'cs.shipment_id': shipment_id});
         return obj;
     }
+    async getShipmentDetailsById(shipment_id) {
+
+        const obj = await db({ cs: 'shipments', p: 'producers', csup: 'suppliers', ssi: 'shipments_supply_info', si: 'supply_info', s: 'statuses', }).select({'ID': 'cs.id', 'shipment_ID': 'cs.shipment_id', 'origin': 'p.names', 'destination': 'csup.names', 'quantities': 'cs.quantities', 'status': 's.statuses', 'description': 'ssi.description', 'stages': 'si.stages'})
+        .whereRaw('?? = ??', ['cs.origin_id', 'p.id'])
+        .whereRaw('?? = ??', ['cs.destination_id', 'csup.id'])
+        .whereRaw('?? = ??', ['cs.id', 'ssi.shipment_id'])
+        .whereRaw('?? = ??', ['si.id', 'ssi.supply_info_id'])
+        .whereRaw('?? = ??', ['si.status_id', 's.id'])
+        .where({'cs.shipment_id': shipment_id});
+        return obj;
+    }
 
     async getShipments() {
         const obj = await db({ cs: 'shipments', p: 'producers', csup: 'suppliers'}).select({'ID': 'cs.id', 'shipment_ID': 'cs.shipment_id', 'origin': 'p.names', 'destination': 'csup.names', 'quantities': 'cs.quantities', 'status': 'cs.status'}).whereRaw('?? = ??', ['cs.origin_id', 'p.id']).whereRaw('?? = ??', ['cs.destination_id', 'csup.id']);
