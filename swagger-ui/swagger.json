@@ -47,7 +47,7 @@
                     "201": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/Auth_result"
                         }
                     }
                 }
@@ -68,7 +68,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/Users"
+                            "$ref": "#/definitions/User_response"
                         }
                     }
                 }
@@ -92,7 +92,7 @@
                     "201": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/User_response"
                         }
                     }
                 }
@@ -117,7 +117,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/User_response"
                         }
                     }
                 }
@@ -141,7 +141,7 @@
                     "201": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/User_response"
                         }
                     }
                 }
@@ -549,7 +549,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/Shipment_id"
+                            "$ref": "#/definitions/Shipment_response"
                         }
                     }
                 }
@@ -573,7 +573,7 @@
                     "201": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/Shipment_id"
+                            "$ref": "#/definitions/Shipment_response"
                         }
                     }
                 }
@@ -598,7 +598,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/Shipment_id"
+                            "$ref": "#/definitions/Shipment_response"
                         }
                     }
                 }
@@ -614,7 +614,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/Shipment"
+                            "$ref": "#/definitions/Shipment_response"
                         }
                     }
                 }
@@ -638,7 +638,7 @@
                     "201": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/Shipment_id"
+                            "$ref": "#/definitions/Shipment_response"
                         }
                     }
                 }
@@ -670,6 +670,36 @@
                 }
             }
         },
+        "User_response": {
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                },
+                "users":{
+                    "type": "array",
+                    "items": {
+                        "items": "object",
+                        "properties":{
+                            "id": {
+                                "type": "integer"
+                            },
+                            "email": {
+                                "type": "string"
+                            },
+                            "firstname": {
+                                "type": "string"
+                            },
+                            "lastname": {
+                                "type": "string"
+                            },
+                            "active": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "Auth": {
             "required": [
                 "email",
@@ -684,36 +714,42 @@
                 }
             }
         },
-        "Producers": {
+        "Auth_result":{
             "properties": {
-                "_id": {
-                    "type": "integer",
-                    "uniqueItems": true
-                },
-                "isPublic": {
+                "success": {
                     "type": "boolean"
                 },
-                "name": {
+                "token": {
                     "type": "string"
+                }
+            }
+        },
+        "Producers": {
+            "properties": {
+                "success": {
+                    "type": "boolean"
                 },
-                "books": {
+                "producers": {
                     "type": "array",
                     "items": {
                         "type": "object",
                         "properties": {
-                            "name": {
+                            "ID": {
+                                "type": "integer"
+                            },
+                            "Name": {
                                 "type": "string"
                             },
-                            "amount": {
-                                "type": "number"
+                            "Country": {
+                                "type": "string"
+                            },
+                            "Region": {
+                                "type": "string"
+                            },
+                            "Address": {
+                                "type": "string"
                             }
                         }
-                    }
-                },
-                "companies": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
                     }
                 }
             }
@@ -804,6 +840,39 @@
                 },
                 "region_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "Shipment_response": {
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                },
+                "producers": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "ID": {
+                                "type": "integer"
+                            },
+                            "shipment_ID": {
+                                "type": "integer"
+                            },
+                            "origin": {
+                                "type": "string"
+                            },
+                            "destination": {
+                                "type": "string"
+                            },
+                            "quantities": {
+                                "type": "string"
+                            },
+                            "status": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         },
